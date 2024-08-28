@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { formSchema } from "@/app/posts/create/page";
 import { BBDataType } from "@/types/type";
+import { Article } from "@/types/type";
 import prisma from "@/lib/prismaCllient";
 
 import { revalidatePath } from "next/cache";
@@ -10,13 +11,13 @@ import { redirect } from "next/navigation";
 
 //全記事取得
 export const getAllData = async () => {
-  const bbData: BBDataType[] = await prisma.post.findMany();
+  const bbData: Article[] = await prisma.article.findMany();
   return bbData;
 };
 
 //投稿詳細取得
 export const getDetailData = async (id: any) => {
-  const bbDetailData = await prisma.post.findUnique({
+  const bbDetailData = await prisma.article.findUnique({
     where: {
       id: parseInt(id),
     },
@@ -30,7 +31,7 @@ export const postBB = async ({
   title,
   content,
 }: z.infer<typeof formSchema>) => {
-  await prisma.post.create({
+  await prisma.article.create({
     data: {
       username,
       title,
@@ -48,7 +49,7 @@ export const editBB = async (
   { username, title, content }: z.infer<typeof formSchema>
 ) => {
   try {
-    await prisma.post.update({
+    await prisma.article.update({
       where: {
         id: parseInt(editId),
       },
@@ -71,7 +72,7 @@ export const editBB = async (
 //削除処理
 export const deleteBB = async (id: any) => {
   try {
-    await prisma.post.delete({
+    await prisma.article.delete({
       where: {
         id: parseInt(id),
       },
