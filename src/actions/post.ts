@@ -1,9 +1,10 @@
 "use server";
 
-import { z } from "zod";
+import { string, z } from "zod";
 import { formSchema } from "@/app/posts/create/page";
 import { Article } from "@/types/type";
 import prisma from "@/lib/prismaClient";
+import { v4 as uuidv4 } from "uuid";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -29,7 +30,7 @@ export const postBB = async (
   { title, content }: z.infer<typeof formSchema>,
   authorId: string
 ) => {
-  const slug = 123;
+  const slug = parseInt(uuidv4());
   await prisma.article.create({
     data: {
       slug,
