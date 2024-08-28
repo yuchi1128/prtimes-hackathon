@@ -16,9 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <Header />
-      <body className={inter.className}>{children}</body>
+    <html lang="ja" className="bg-slate-200">
+      <body className={inter.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
