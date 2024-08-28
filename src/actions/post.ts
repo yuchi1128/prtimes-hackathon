@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 import { formSchema } from "@/app/posts/create/page";
-import { BBDataType } from "@/types/type";
 import { Article } from "@/types/type";
 import prisma from "@/lib/prismaClient";
 
@@ -19,23 +18,24 @@ export const getAllData = async () => {
 export const getDetailData = async (id: any) => {
   const bbDetailData = await prisma.article.findUnique({
     where: {
-      id: parseInt(id),
+      id: id,
     },
   });
   return bbDetailData;
 };
 
 //新規投稿
-export const postBB = async ({
-  username,
-  title,
-  content,
-}: z.infer<typeof formSchema>) => {
+export const postBB = async (
+  { title, content }: z.infer<typeof formSchema>,
+  authorId: string
+) => {
+  const slug = 123;
   await prisma.article.create({
     data: {
-      username,
+      slug,
       title,
       content,
+      authorId,
     },
   });
 
@@ -46,22 +46,21 @@ export const postBB = async ({
 //編集処理
 export const editBB = async (
   editId: any,
-  { username, title, content }: z.infer<typeof formSchema>
+  { title, content }: z.infer<typeof formSchema>
 ) => {
   try {
     await prisma.article.update({
       where: {
-        id: parseInt(editId),
+        id: editId,
       },
       data: {
-        username: username,
         title: title,
         content: content,
       },
     });
     console.log("log: edit done");
   } catch (error) {
-    console.log(editId, { username, title, content });
+    console.log(editId, { title, content });
     console.error("log: edit error");
   }
 
@@ -74,7 +73,7 @@ export const deleteBB = async (id: any) => {
   try {
     await prisma.article.delete({
       where: {
-        id: parseInt(id),
+        id: id,
       },
     });
     console.log("log: delete done");

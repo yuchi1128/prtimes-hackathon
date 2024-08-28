@@ -1,8 +1,9 @@
 import { BBDataType } from "@/types/type";
+import { Article } from "@/types/type";
 import BBCard from "./BBCard";
 
 interface BBAllDataProps {
-  bbData: BBDataType[];
+  bbData: Article[];
 }
 
 const CardList = ({ bbData }: BBAllDataProps) => {

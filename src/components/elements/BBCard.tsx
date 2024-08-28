@@ -9,14 +9,16 @@ import {
   CardHeader,
   CardTitle,
 } from "./card";
-import { BBDataType } from "@/types/type";
+import { Article } from "@/types/type";
 
 interface bbDataProps {
-  bbData: BBDataType;
+  bbData: Article;
 }
 
 const BBCard = ({ bbData }: bbDataProps) => {
-  const { id, title, content, createdAt, username } = bbData;
+  const { id, title, content } = bbData;
+  //ここでユーザー名を取得して格納する
+  const username = "テスト"
 
   return (
     <div>

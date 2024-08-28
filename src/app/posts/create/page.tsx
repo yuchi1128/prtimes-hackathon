@@ -17,9 +17,9 @@ import { Textarea } from "@/components/elements/textarea";
 import { postBB } from "@/actions/post";
 
 export const formSchema = z.object({
-  username: z
-    .string()
-    .min(2, { message: "ユーザー名は2文字以上で入力してください" }),
+  // username: z
+  //   .string()
+  //   .min(2, { message: "ユーザー名は2文字以上で入力してください" }),
   title: z
     .string()
     .min(2, { message: "タイトルは2文字以上で入力してください" }),
@@ -33,15 +33,16 @@ const CreatePage = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      // username: "",
       title: "",
       content: "",
     },
   });
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
-    const { username, title, content } = value;
-    postBB({ username, title, content });
+    const authorId = "test-user"
+    const { title, content } = value;
+    postBB({ title, content},authorId);
   }
 
   return (
@@ -52,7 +53,7 @@ const CreatePage = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-3 w-1/2 px-7 mx-auto"
         >
-          <FormField
+          {/* <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
@@ -64,7 +65,7 @@ const CreatePage = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             control={form.control}
             name="title"
