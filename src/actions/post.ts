@@ -4,7 +4,7 @@ import { z } from "zod";
 import { formSchema } from "@/app/posts/create/page";
 import { BBDataType } from "@/types/type";
 import { Article } from "@/types/type";
-import prisma from "@/lib/prismaCllient";
+import prisma from "@/lib/prismaClient";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
