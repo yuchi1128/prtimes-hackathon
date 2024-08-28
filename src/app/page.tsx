@@ -1,5 +1,11 @@
-import Image from "next/image";
+import CardList from "@/components/elements/CardList";
+import { getAllData } from "@/actions/post";
 
-export default function Home() {
-  return <main>main</main>;
+export default async function Home() {
+  const bbData = await getAllData();
+  return (
+    <main>
+      <CardList bbData={bbData} />
+    </main>
+  );
 }
