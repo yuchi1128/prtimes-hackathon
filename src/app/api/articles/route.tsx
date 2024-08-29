@@ -1,5 +1,3 @@
-// src/app/api/ranking/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -7,9 +5,13 @@ const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   try {
+    const params = req.nextUrl.searchParams;
+    const isPublish = params.get('isPublishe') === "true";
+    const query = Number(params.get("max")) || undefined;
+
     const articles = await prisma.article.findMany({
       where: {
-        published: false
+        published: isPublish
       },
       include: {
         _count: {
@@ -17,11 +19,9 @@ export async function GET(req: NextRequest) {
         },
       },
       orderBy: {
-        likes: {
-          _count: 'desc',
-        },
+        createdAt: 'asc'
       },
-      take: 5
+      take: query
     });
 
     const result = articles.map((article) => ({
