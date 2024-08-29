@@ -19,6 +19,7 @@ model User {
   password String
   profile Profile
   articles Article[]
+  likes Like[]
 }
 
 type Profile {
@@ -31,17 +32,18 @@ type Profile {
 
 model Article {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  slug Int @unique
   createdAt DateTime @default(now())
   published Boolean @default(false)
   author User @relation(fields: [authorId], references: [id])
   authorId String @db.ObjectId
-  body String 
+  content String 
   title String
   tagIDs String[] @db.ObjectId
   tags Tag[] @relation(fields: [tagIDs], references: [id])
   categoryIDs String[] @db.ObjectId
   categories Category[] @relation(fields: [categoryIDs], references: [id])
-  
+  likes Like[]
 }
 
 model Tag {
@@ -56,4 +58,12 @@ model Category {
   name String
   articleIDs String[] @db.ObjectId
   articles Article[] @relation(fields: [articleIDs], references: [id])
+}
+
+model Like {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String  @db.ObjectId
+  article   Article @relation(fields: [articleId], references: [id])
+  articleId String  @db.ObjectId
 }
