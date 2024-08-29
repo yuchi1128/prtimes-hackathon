@@ -13,14 +13,14 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editBB, getDetailData } from "@/actions/post";
-import { BBDataType } from "@/types/type";
+import { Article } from "@/types/type";
 import { Input } from "@/components/elements/input";
 import { Textarea } from "@/components/elements/textarea";
 
 export const formSchema = z.object({
-  username: z
-    .string()
-    .min(2, { message: "ユーザー名は2文字以上で入力してください" }),
+  // username: z
+  //   .string()
+  //   .min(2, { message: "ユーザー名は2文字以上で入力してください" }),
   title: z
     .string()
     .min(2, { message: "タイトルは2文字以上で入力してください" }),
@@ -31,7 +31,7 @@ export const formSchema = z.object({
 });
 
 const EditPage = ({ params }: { params: { Id: number } }) => {
-  const [bbDetailData, setBbDetailData] = useState<BBDataType>();
+  const [bbDetailData, setBbDetailData] = useState<Article>();
   //form初期値設定
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -58,7 +58,7 @@ const EditPage = ({ params }: { params: { Id: number } }) => {
   useEffect(() => {
     if (bbDetailData) {
       form.reset({
-        username: bbDetailData.username,
+        // username: bbDetailData.username,
         title: bbDetailData.title,
         content: bbDetailData.content,
       });
@@ -77,21 +77,21 @@ const EditPage = ({ params }: { params: { Id: number } }) => {
   }
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
-    const { username, title, content } = value;
+    const { title, content } = value;
     const editId = params.Id;
-    console.log(editId, username, title, content);
-    editBB(editId, { username, title, content });
+    console.log(editId, title, content);
+    editBB(editId, { title, content });
   }
 
   return (
-    <div className="mt-10">
+    <div className="bg-slate-200 text-black">
       <h1 className="text-4xl font-bold text-center py-6">編集画面</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-3 w-full lg:w-1/2 px-7 mx-auto"
         >
-          <FormField
+          {/* <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
@@ -103,7 +103,7 @@ const EditPage = ({ params }: { params: { Id: number } }) => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             control={form.control}
             name="title"
