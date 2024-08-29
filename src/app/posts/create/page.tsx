@@ -40,13 +40,12 @@ const CreatePage = () => {
   });
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
-    const authorId = "test-user"
     const { title, content } = value;
-    postBB({ title, content},authorId);
+    postBB({ title, content });
   }
 
   return (
-    <div className="mt-10">
+    <div className="bg-slate-200 text-black">
       <h1 className="text-4xl font-bold text-center py-6">新規投稿</h1>
       <Form {...form}>
         <form
@@ -96,7 +95,7 @@ const CreatePage = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">投稿</Button>
+          <Button type="submit" className="bg-blue-500">投稿</Button>
         </form>
       </Form>
     </div>

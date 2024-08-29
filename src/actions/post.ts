@@ -28,15 +28,12 @@ export const getDetailData = async (id: any) => {
 //新規投稿
 export const postBB = async (
   { title, content }: z.infer<typeof formSchema>,
-  authorId: string
 ) => {
-  const slug = parseInt(uuidv4());
+  // const slug = parseInt(uuidv4());
   await prisma.article.create({
     data: {
-      slug,
       title,
       content,
-      authorId,
     },
   });
 
