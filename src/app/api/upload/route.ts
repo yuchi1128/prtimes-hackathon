@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     }
 
     const blob = file as Blob;
-    const blobName = uuidv4(); // ファイル名にUUIDを使用
+    const blobName = uuidv4(); // ファイル名にはUUIDを使用
     const blobStream = bucket.file(blobName).createWriteStream();
 
     const arrayBuffer = await blob.arrayBuffer();
