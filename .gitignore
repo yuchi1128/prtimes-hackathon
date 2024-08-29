@@ -28,6 +28,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+pr-times-hackathon-b4a103cf8470.json
 
 # vercel
 .vercel
