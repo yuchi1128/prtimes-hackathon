@@ -8,7 +8,7 @@ interface BBAllDataProps {
 
 const CardList = ({ bbData }: BBAllDataProps) => {
   return (
-    <div className="p-10">
+    <div className="p-10 grid gap-4 grid-cols-2">
       {bbData.map((bbData) => (
         <BBCard key={bbData.id} bbData={bbData} />
       ))}

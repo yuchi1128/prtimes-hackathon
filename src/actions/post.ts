@@ -31,12 +31,15 @@ export const postBB = async (
   authorId: string
 ) => {
   const slug = parseInt(uuidv4());
+  const thumbnailURL: string = "https://kkkkkkkk";
+
   await prisma.article.create({
     data: {
       slug,
       title,
       content,
       authorId,
+      thumbnailURL: "",
     },
   });
 
