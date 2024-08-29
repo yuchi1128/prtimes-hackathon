@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { UserIcon, LockClosedIcon } from '@heroicons/react/24/solid'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation';
+import { TrashIcon } from '@heroicons/react/24/solid';
 
 export default function LoginPage() {
 
