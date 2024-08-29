@@ -1,5 +1,5 @@
 export interface User {
-    id: number;
+    id: string;
     uuid: string;
     password: string;
     article: string;
@@ -8,8 +8,8 @@ export interface User {
 
 export interface Profile {
     username: string;
-    profile_img_url: string;
-    twitter_url: string;
-    facebook_url: string;
+    profileImageURL: string;
+    twitterURL: string;
+    facebookURL: string;
     description: string;
 }

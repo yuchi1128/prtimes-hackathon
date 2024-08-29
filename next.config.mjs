@@ -6,13 +6,15 @@
 
 // next.config.mjs
 
+// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-      domains: ['sushida.net'],
+      domains: ['storage.googleapis.com'],
     },
-  };
+  }
   
-  export default nextConfig;
+  export default nextConfig
+  
   
   
