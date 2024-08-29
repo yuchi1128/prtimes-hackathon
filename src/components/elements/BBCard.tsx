@@ -18,10 +18,10 @@ interface bbDataProps {
 const BBCard = ({ bbData }: bbDataProps) => {
   const { id, title, content } = bbData;
   //ここでユーザー名を取得して格納する
-  const username = "テスト"
+  const username = "テスト";
 
   return (
-    <div>
+    <div className="mx-auto">
       <Card className="text-black">
         <CardHeader>
           <CardTitle>{title}</CardTitle>

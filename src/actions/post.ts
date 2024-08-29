@@ -64,7 +64,6 @@ export const editBB = async (
     console.log(editId, { title, content });
     console.error("log: edit error");
   }
-
   revalidatePath("/");
   redirect("/");
 };
