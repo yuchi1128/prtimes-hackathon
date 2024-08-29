@@ -1,35 +1,62 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftEndOnRectangleIcon } from "@heroicons/react/16/solid";
 
-const Header = () => {
+interface LoginProps {
+  userId?: string;
+}
+
+const RichHeader = (userId: LoginProps) => {
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  //ログイン状態を取得
+  useEffect(() => {
+    console.log("log:", userId);
+    setIsLogin(!!userId);
+  }, [userId]);
+
   return (
-    <div className="divide-y border-gray-400 dark:border-gray-800 border-b bg-white">
-      <div className="px-4 py-3 md:py-6 lg:px-10">
-        <div className="grid grid-cols-2 items-center space-y-2 md:space-y-0 md:space-x-6">
-          <Link
-            href="/"
-            className="text-2xl font-bold tracking-tighter text-black"
-          >
-            掲示板アプリ
-          </Link>
-          <nav className="flex items-center space-x-6 text-sm justify-self-end">
+    <header className="bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg">
+      <div className="container mx-auto flex justify-between items-center py-6">
+        <Link href="/" className="text-3xl font-extrabold">
+          PRTIMES_STUDENT
+        </Link>
+        <div className="flex items-center space-x-6">
+          <nav className="hidden md:flex space-x-4">
             <Link
-              className="font-medium text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              className="bg-white text-blue-600 py-2 px-4 rounded-md transition duration-300"
               href="/about"
             >
-              About
+              {/* ページ未作成 */}
+              サービスについて
             </Link>
             <Link
-              className="bg-black py-3 px-4 text-white rounded-md font-medium"
+              className="bg-white text-blue-600 py-2 px-4 rounded-md transition duration-300"
               href="/posts/create"
             >
               新規投稿
             </Link>
           </nav>
+          {/* ログイン状態でアイコンを変更 */}
+          {isLogin ? (
+            <div className="relative">
+              <Link href="/">
+                <UserCircleIcon className="h-10 w-10 cursor-pointer" />
+              </Link>
+            </div>
+          ) : (
+            <div className="relative">
+              <Link href="/">
+                <ArrowLeftEndOnRectangleIcon className="h-10 w-10 cursor-pointer" />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
-export default Header;
+export default RichHeader;
