@@ -38,7 +38,7 @@ model Article {
   author User @relation(fields: [authorId], references: [id])
   authorId String @db.ObjectId
   content String 
-  ThumbnailURL String
+  thumbnailURL String
   title String
   tagIDs String[] @db.ObjectId
   tags Tag[] @relation(fields: [tagIDs], references: [id])
