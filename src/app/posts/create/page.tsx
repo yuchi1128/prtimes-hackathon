@@ -41,7 +41,7 @@ const CreatePage = () => {
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
     const { title, content } = value;
-    const authorId = "66d010ff698fec94955a8bcc";
+    const authorId = "66d01fb868ca9832f3880236";
     postBB({ title, content }, authorId);
   }
 
