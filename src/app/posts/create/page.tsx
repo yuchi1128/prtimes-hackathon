@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/elements/form";
-import { Input } from "@/components/elements/input";
+import { Input } from "@/components/ui/input";
 import React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -41,7 +41,7 @@ const CreatePage = () => {
 
   async function onSubmit(value: z.infer<typeof formSchema>) {
     const { title, content } = value;
-    const authorId = "66cef226c899b1cc92b7780b";
+    const authorId = "66d010ff698fec94955a8bcc";
     postBB({ title, content }, authorId);
   }
 
