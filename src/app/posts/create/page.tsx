@@ -26,7 +26,7 @@ export const formSchema = z.object({
   content: z
     .string()
     .min(10, { message: "本文は10文字以上で入力してください" })
-    .max(100, { message: "本文は100字以内で入力してください" }),
+    .max(2000, { message: "本文は2000字以内で入力してください" }),
 });
 
 const CreatePage = () => {
