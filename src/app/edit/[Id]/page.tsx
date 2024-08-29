@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editBB, getDetailData } from "@/actions/post";
 import { Article } from "@/types/type";
-import { Input } from "@/components/elements/input";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/elements/textarea";
 
 export const formSchema = z.object({

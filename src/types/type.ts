@@ -14,6 +14,7 @@ export interface Article {
   authorId?: string;
   content: string;
   title: string;
+  thumbnailURL?: string;
   tagIDs?: string[];
   categoryIDs?: string[];
 }
