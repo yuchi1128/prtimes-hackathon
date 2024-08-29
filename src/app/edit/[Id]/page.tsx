@@ -84,7 +84,7 @@ const EditPage = ({ params }: { params: { Id: number } }) => {
   }
 
   return (
-    <div className="bg-slate-200 text-black">
+    <div className="text-black">
       <h1 className="text-4xl font-bold text-center py-6">編集画面</h1>
       <Form {...form}>
         <form
