@@ -16,6 +16,7 @@ datasource db {
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   uuid String
+  username String @unique
   password String
   profile Profile
   articles Article[]
@@ -23,7 +24,6 @@ model User {
 }
 
 type Profile {
-  username String
   profileImageURL String
   twitterURL String
   facebookURL String
@@ -38,6 +38,7 @@ model Article {
   author User @relation(fields: [authorId], references: [id])
   authorId String @db.ObjectId
   content String 
+  ThumbnailURL String
   title String
   tagIDs String[] @db.ObjectId
   tags Tag[] @relation(fields: [tagIDs], references: [id])
@@ -66,4 +67,5 @@ model Like {
   userId    String  @db.ObjectId
   article   Article @relation(fields: [articleId], references: [id])
   articleId String  @db.ObjectId
+  createdAt DateTime @default(now())
 }
