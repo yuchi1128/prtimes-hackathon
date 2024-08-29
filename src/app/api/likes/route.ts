@@ -35,6 +35,26 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const articleId = searchParams.get('articleId');
+
+  if (!articleId) {
+    return NextResponse.json({ error: 'Article ID is required' }, { status: 400 });
+  }
+
+  try {
+    const likeCount = await prisma.like.count({
+      where: {
+        articleId: articleId,
+      },
+    });
+    return NextResponse.json({ articleId, likeCount }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Unable to retrieve like count' }, { status: 500 });
+  }
+}
+
 // フロントエンド側のコード
 
 // export const likeArticle = async (userId: string, articleId: string) => {
@@ -64,6 +84,18 @@ export async function DELETE(req: NextRequest) {
 
 //   if (!response.ok) {
 //     throw new Error('Failed to unlike the article');
+//   }
+
+//   return response.json();
+// };
+
+// export const getLikeCount = async (articleId: string): Promise<{ articleId: string; likeCount: number }> => {
+//   const response = await fetch(`/api/likes?articleId=${articleId}`, {
+//     method: 'GET',
+//   });
+
+//   if (!response.ok) {
+//     throw new Error('Failed to fetch like count');
 //   }
 
 //   return response.json();
