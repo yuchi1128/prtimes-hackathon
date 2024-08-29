@@ -1,23 +1,40 @@
 import { PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-  const prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
-  const res = await prisma.user.findUnique({
-    
-  })
+export async function POST(request: NextRequest) {
 
-  prisma.$disconnect
-  return NextResponse.json({
-  })
-}
+  try {
+    prisma.$connect
+    const req = await request.json()
 
-export function POST(request: NextRequest) {
-  const prisma = new PrismaClient()
+    const res = await prisma.user.create(
+      {
+        data: {
+          uuid: "aaaaa-bbbbbb-ccccc-ddddd",
+          username: req.username, 
+          password: req.password,
+          profile: {
+            profileImageURL: "",
+            twitterURL: "",
+            facebookURL: "",
+            description: ""
+          }
+        }
+      }
+    )
 
-  prisma.$disconnect
-  return NextResponse.json({
-    
-  })
+    return NextResponse.json(
+      { message: res },
+      { statusText: "Success" },
+    )
+  } catch (err) {
+    return NextResponse.json(
+      { data: err },
+      { statusText: "Failed"},
+    )
+  } finally {
+    prisma.$disconnect
+  }
 }
