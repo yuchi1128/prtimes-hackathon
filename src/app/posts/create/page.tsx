@@ -46,7 +46,7 @@ const CreatePage = () => {
   }
 
   return (
-    <div className="bg-slate-200 text-black">
+    <div className="text-black">
       <h1 className="text-4xl font-bold text-center py-6">新規投稿</h1>
       <Form {...form}>
         <form
