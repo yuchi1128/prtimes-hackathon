@@ -4,10 +4,10 @@ import { Article } from "@/types/type";
 import { Button } from "@/components/elements/button";
 import { getDetailData } from "@/actions/post";
 import { deleteBB } from "@/actions/post";
-import Heart from "@/components/elements/Heart";
+import { HeartIcon } from "@heroicons/react/16/solid";
 import { ClientContent } from "@/components/ui/client";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { marked } from 'marked'
+import { marked } from "marked";
 
 const DetailPage = async ({ params }: { params: { Id: number } }) => {
   const data = await getDetailData(params.Id);
@@ -22,11 +22,10 @@ const DetailPage = async ({ params }: { params: { Id: number } }) => {
       </div>
     );
   }
-  
+
   // Markdown を HTML に変換
   const formattedContent = marked(data.content);
   const { id, title, content } = data;
-
 
   return (
     <div className="mx-auto w-full max-w-4xl p-10 border border-gray-300 bg-white mt-10 text-gray-900">
@@ -36,12 +35,12 @@ const DetailPage = async ({ params }: { params: { Id: number } }) => {
             <h1 className="text-2xl font-bold">{title}</h1>
             {/* <p>{username}</p> */}
           </div>
-        <div className="mb-8">
-        <p dangerouslySetInnerHTML={{ __html: formattedContent }} />
-      </div>
+          <div className="mb-8">
+            <p dangerouslySetInnerHTML={{ __html: formattedContent }} />
+          </div>
         </div>
         <div className="w-1/12">
-          <Heart />
+          <HeartIcon />
         </div>
       </div>
       <div className="w-full flex text-white pt-20">
