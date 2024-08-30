@@ -30,20 +30,6 @@ const categories = [
 
 const timeFrames = ['1時間以内', '今日', '今週', '今月'];
 
-const articles = [
-  { id: 1, title: '大学生が開発したAIアプリが話題に', category: 'IT', date: '2024-08-29' },
-  { id: 2, title: '食品ロス削減アプリで起業した高校生', category: '食品', date: '2024-08-28' },
-  { id: 3, title: '介護ロボットのプロトタイプを発表', category: 'ロボット', date: '2024-08-27' },
-];
-
-const rankings = [
-  { id: 1, title: '大学生チームが開発した環境配慮型食品がクラウドファンディングで大成功', views: 15000 },
-  { id: 2, title: '高校生プログラマーが作成したアプリが10万ダウンロードを突破', views: 12000 },
-  { id: 3, title: '中学生が考案した新しいリサイクル方法が特許取得', views: 10000 },
-  { id: 4, title: '中学生が考案した新しいリサイクル方法が特許取得', views: 10000 },
-  { id: 5, title: '中学生が考案した新しいリサイクル方法が特許取得', views: 10000 },
-];
-
 export default function Homepage() {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState(timeFrames[0]);
   const router = useRouter();
@@ -51,13 +37,20 @@ export default function Homepage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  function truncateString(str: string, maxLength: number): string {
+    if (str.length <= maxLength) {
+      return str;
+    }
+    return str.slice(0, maxLength) + '...';
+  }
+
   useEffect(() => {
     // データを非同期で取得
     const fetchData = async () => {
       try {
         const [rankingRes, articlesRes] = await Promise.all([
           fetch('/api/ranking'),
-          fetch('/api/articles?max=20&isPublishe=false'),
+          fetch('/api/articles?max=20&isPublishe=true'),
         ]);
 
         if (!rankingRes.ok || !articlesRes.ok) {
@@ -133,7 +126,7 @@ export default function Homepage() {
               </div>
             </div>
             <div className="bg-white rounded-lg shadow-md p-6">
-              {data?.rankings.map((ranking:Article, index:number) => (
+              {data?.rankings["day"].map((ranking:Article, index:number) => (
                 <Link key={ranking.id} href={"/posts/" + ranking.id}>
                 <div className="flex items-center mb-4 last:mb-0">
                   <span className="text-2xl font-bold mr-4 text-[#9ba88d]">{index + 1}</span>
@@ -153,13 +146,13 @@ export default function Homepage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {data?.articles.map((article:Article) => (
                 <Link key={article.id} href={"/posts/" + article.id}>
-                <div className="bg-white rounded-lg border-0 hover:border shadow-md overflow-hidden">
+                <div className="bg-white rounded-lg border-0 hover:border shadow-md overflow-hidden max-h-[220px] h-full">
                   <div className="p-6">
                     <span className="inline-block bg-[#9ba88d] text-white text-xs px-2 py-1 rounded-full mb-2">
                       test
                     </span>
                     <h3 className="font-semibold mb-2">{article.title}</h3>
-                    <p className="text-sm text-gray-500">{article.content}</p>
+                    <p className="text-sm text-gray-500">{truncateString(article.content, 100)}</p>
                   </div>
                 </div>
                 </Link>
