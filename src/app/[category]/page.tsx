@@ -57,7 +57,7 @@ export default function Homepage({ params }: { params: { category: string }}) {
       try {
         const [rankingRes, articlesRes] = await Promise.all([
           fetch('/api/ranking'),
-          fetch('/api/articles?max=20&isPublishe=false'),
+          fetch('/api/articles?max=20&isPublishe=true'),
         ]);
 
         if (!rankingRes.ok || !articlesRes.ok) {
@@ -148,7 +148,7 @@ export default function Homepage({ params }: { params: { category: string }}) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {data?.articles.map((article:Article) => (
                 <Link key={article.id} href={"/posts/" + article.id}>
-                <div className="bg-white rounded-lg border-0 hover:border shadow-md overflow-hidden max-h-[200px] h-full">
+                <div className="bg-white rounded-lg border-0 hover:border shadow-md overflow-hidden max-h-[220px] h-full">
                   <div className="p-6">
                     <span className="inline-block bg-[#9ba88d] text-white text-xs px-2 py-1 rounded-full mb-2">
                       test

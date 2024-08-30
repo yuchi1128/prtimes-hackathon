@@ -12,15 +12,7 @@ export async function GET(req: NextRequest) {
   try {
     const articlesDay = await prisma.article.findMany({
       where: {
-        published: false,
-        likes: {
-          some: {
-            createdAt: {
-              gte: startOfToday(),
-              lte: endOfToday(),
-            }
-          }
-        }
+        published: true,
       },
       include: {
         _count: {
@@ -37,7 +29,7 @@ export async function GET(req: NextRequest) {
 
     const articlesWeek = await prisma.article.findMany({
       where: {
-        published: false,
+        published: true,
         likes: {
           some: {
             createdAt: {
@@ -62,7 +54,7 @@ export async function GET(req: NextRequest) {
 
     const articlesMonth = await prisma.article.findMany({
       where: {
-        published: false,
+        published: true,
         likes: {
           some: {
             createdAt: {
@@ -97,7 +89,7 @@ export async function GET(req: NextRequest) {
       likeCount: article._count.likes,
     }));
 
-    const resultWeek = articlesDay.map((article) => ({
+    const resultWeek = articlesWeek.map((article) => ({
       id: article.id,
       slug: article.slug,
       createdAt: article.createdAt,
@@ -109,7 +101,7 @@ export async function GET(req: NextRequest) {
       likeCount: article._count.likes,
     }));
 
-    const resultMonth = articlesDay.map((article) => ({
+    const resultMonth = articlesMonth.map((article) => ({
       id: article.id,
       slug: article.slug,
       createdAt: article.createdAt,
