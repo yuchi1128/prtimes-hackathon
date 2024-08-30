@@ -30,14 +30,6 @@ export async function GET(req: NextRequest) {
     const articlesWeek = await prisma.article.findMany({
       where: {
         published: true,
-        likes: {
-          some: {
-            createdAt: {
-              gte: startOfWeek(new Date(), { weekStartsOn: 1 }), // 月曜日開始
-              lte: endOfWeek(new Date(), { weekStartsOn: 1 }),
-            }
-          }
-        }
       },
       include: {
         _count: {
@@ -55,14 +47,6 @@ export async function GET(req: NextRequest) {
     const articlesMonth = await prisma.article.findMany({
       where: {
         published: true,
-        likes: {
-          some: {
-            createdAt: {
-              gte: startOfMonth(new Date()),
-              lte: endOfMonth(new Date()),
-            }
-          }
-        }
       },
       include: {
         _count: {
