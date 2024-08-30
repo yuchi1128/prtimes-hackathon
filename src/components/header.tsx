@@ -4,17 +4,19 @@ import Link from "next/link";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { ArrowLeftEndOnRectangleIcon } from "@heroicons/react/16/solid";
 
-interface LoginProps {
-  userId?: string;
-}
-
-const RichHeader = (userId: LoginProps) => {
+const RichHeader = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  const userId = localStorage.getItem("userId");
 
   //ログイン状態を取得
   useEffect(() => {
     console.log("log:", userId);
-    setIsLogin(!!userId);
+    if (userId) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
   }, [userId]);
 
   return (
@@ -27,7 +29,7 @@ const RichHeader = (userId: LoginProps) => {
           <nav className="hidden md:flex space-x-4">
             <Link
               className="bg-white text-blue-600 py-2 px-4 rounded-md transition duration-300"
-              href="/about"
+              href="/"
             >
               {/* ページ未作成 */}
               サービスについて
@@ -42,13 +44,13 @@ const RichHeader = (userId: LoginProps) => {
           {/* ログイン状態でアイコンを変更 */}
           {isLogin ? (
             <div className="relative">
-              <Link href="/">
+              <Link href={`/profile/${userId}`}>
                 <UserCircleIcon className="h-10 w-10 cursor-pointer" />
               </Link>
             </div>
           ) : (
             <div className="relative">
-              <Link href="/">
+              <Link href="/login">
                 <ArrowLeftEndOnRectangleIcon className="h-10 w-10 cursor-pointer" />
               </Link>
             </div>
