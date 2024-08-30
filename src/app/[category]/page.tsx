@@ -29,19 +29,6 @@ const categories = [
   { name: 'その他', categoryName: "other" },
 ];
 
-const articles = [
-  { id: 1, title: '大学生が開発したAIアプリが話題に', category: 'IT', date: '2024-08-29' },
-  { id: 2, title: '食品ロス削減アプリで起業した高校生', category: '食品', date: '2024-08-28' },
-  { id: 3, title: '介護ロボットのプロトタイプを発表', category: 'ロボット', date: '2024-08-27' },
-];
-
-const rankings = [
-  { id: 1, title: '大学生チームが開発した環境配慮型食品がクラウドファンディングで大成功', views: 15000 },
-  { id: 2, title: '高校生プログラマーが作成したアプリが10万ダウンロードを突破', views: 12000 },
-  { id: 3, title: '中学生が考案した新しいリサイクル方法が特許取得', views: 10000 },
-  { id: 4, title: '中学生が考案した新しいリサイクル方法が特許取得', views: 10000 },
-  { id: 5, title: '中学生が考案した新しいリサイクル方法が特許取得', views: 10000 },
-];
 
 export default function Homepage({ params }: { params: { category: string }}) {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("today");
@@ -128,7 +115,7 @@ export default function Homepage({ params }: { params: { category: string }}) {
               </div>
             </div>
             <div className="bg-white rounded-lg shadow-md p-6">
-              {data?.rankings.map((ranking:Article, index:number) => (
+              {data?.rankings["day"].map((ranking:Article, index:number) => (
                 <Link key={ranking.id} href={"/posts/" + ranking.id}>
                 <div className="flex items-center mb-5 mt-2 last:mb-0">
                   <span className="text-2xl font-bold mr-4 mb-4 text-[#9ba88d]">{index + 1}</span>
