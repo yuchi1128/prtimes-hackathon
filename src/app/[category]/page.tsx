@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 type Data = {
   rankings: any;
@@ -22,13 +22,12 @@ interface Article {
 }
 
 const categories = [
+  { name: '総合', categoryName: 'general' },
   { name: '食品', categoryName: "food" },
   { name: 'IT', categoryName: "it" },
   { name: 'ロボット', categoryName: "robot" },
   { name: 'その他', categoryName: "other" },
 ];
-
-const timeFrames = ['1時間以内', '今日', '今週', '今月'];
 
 const articles = [
   { id: 1, title: '大学生が開発したAIアプリが話題に', category: 'IT', date: '2024-08-29' },
@@ -44,12 +43,13 @@ const rankings = [
   { id: 5, title: '中学生が考案した新しいリサイクル方法が特許取得', views: 10000 },
 ];
 
-export default function Homepage() {
-  const [selectedTimeFrame, setSelectedTimeFrame] = useState(timeFrames[0]);
+export default function Homepage({ params }: { params: { category: string }}) {
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState("today");
   const router = useRouter();
   const [data, setData] = useState<Data | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const currentCategory = params.category
 
   useEffect(() => {
     // データを非同期で取得
@@ -91,20 +91,24 @@ export default function Homepage() {
         <div className="w-64 bg-[#9ba88d] pt-6">
           <nav>
             <ul>
-              <li className="">
-                  <Link href="/general">
-                  <div className="flex items-center text-[#9ba88d] bg-white hover:text-gray-200 border-b pb-1 pl-4">
-                  総合
-                  </div>
-                  </Link>
-              </li>
               {categories.map((category) => (
                 <li key={category.name} className="">
+                  {
+                    currentCategory == category.categoryName
+                    ?
                     <Link href={"/" + category.categoryName}>
-                    <div className="flex items-center text-white hover:text-gray-200 border-b pb-1 pl-4">
-                    {category.name}
-                    </div>
+                      <div className="flex items-center text-[#9ba88d] bg-white hover:text-gray-200 border-b pb-1 pl-4">
+                      {category.name}
+                      </div>
                     </Link>
+                    :
+                    <Link href={"/" + category.categoryName}>
+                      <div className="flex items-center text-white hover:text-gray-200 border-b pb-1 pl-4">
+                      {category.name}
+                      </div>
+                    </Link>
+                  }
+
                 </li>
               ))}
             </ul>
@@ -118,25 +122,16 @@ export default function Homepage() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">ランキング</h2>
               <div className="relative">
-                <select
-                  value={selectedTimeFrame}
-                  onChange={(e) => setSelectedTimeFrame(e.target.value)}
-                  className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 text-sm leading-5 focus:outline-none focus:border-[#9ba88d]"
-                >
-                  {timeFrames.map((timeFrame) => (
-                    <option key={timeFrame} value={timeFrame}>
-                      {timeFrame}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDownIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Button variant="outline" onClick={() => setSelectedTimeFrame("today")} className="rounded-none border-gray-400 border-r-0">今日のランキング</Button>
+                <Button variant="outline" onClick={() => setSelectedTimeFrame("week")} className="rounded-none border-gray-400">今週のランキング</Button>
+                <Button variant="outline" onClick={() => setSelectedTimeFrame("month")} className="rounded-none border-gray-400 border-l-0">今月のランキング</Button>
               </div>
             </div>
             <div className="bg-white rounded-lg shadow-md p-6">
               {data?.rankings.map((ranking:Article, index:number) => (
                 <Link key={ranking.id} href={"/posts/" + ranking.id}>
-                <div className="flex items-center mb-4 last:mb-0">
-                  <span className="text-2xl font-bold mr-4 text-[#9ba88d]">{index + 1}</span>
+                <div className="flex items-center mb-5 mt-2 last:mb-0">
+                  <span className="text-2xl font-bold mr-4 mb-4 text-[#9ba88d]">{index + 1}</span>
                   <div className="border-b w-full">
                     <h3 className="font-semibold">{ranking.title}</h3>
                     <p className="text-sm text-gray-500">{ranking.likeCount.toLocaleString()} likes</p>
@@ -153,7 +148,7 @@ export default function Homepage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {data?.articles.map((article:Article) => (
                 <Link key={article.id} href={"/posts/" + article.id}>
-                <div className="bg-white rounded-lg border-0 hover:border shadow-md overflow-hidden">
+                <div className="bg-white rounded-lg border-0 hover:border shadow-md overflow-hidden max-h-[200px] h-full">
                   <div className="p-6">
                     <span className="inline-block bg-[#9ba88d] text-white text-xs px-2 py-1 rounded-full mb-2">
                       test
