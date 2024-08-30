@@ -2,14 +2,25 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { startOfToday, endOfToday } from 'date-fns';
+import { startOfWeek, endOfWeek } from 'date-fns';
+import { startOfMonth, endOfMonth } from 'date-fns';
 
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   try {
-    const articles = await prisma.article.findMany({
+    const articlesDay = await prisma.article.findMany({
       where: {
-        published: false
+        published: false,
+        likes: {
+          some: {
+            createdAt: {
+              gte: startOfToday(),
+              lte: endOfToday(),
+            }
+          }
+        }
       },
       include: {
         _count: {
@@ -24,7 +35,57 @@ export async function GET(req: NextRequest) {
       take: 5
     });
 
-    const result = articles.map((article) => ({
+    const articlesWeek = await prisma.article.findMany({
+      where: {
+        published: false,
+        likes: {
+          some: {
+            createdAt: {
+              gte: startOfWeek(new Date(), { weekStartsOn: 1 }), // 月曜日開始
+              lte: endOfWeek(new Date(), { weekStartsOn: 1 }),
+            }
+          }
+        }
+      },
+      include: {
+        _count: {
+          select: { likes: true },
+        },
+      },
+      orderBy: {
+        likes: {
+          _count: 'desc',
+        },
+      },
+      take: 5
+    });
+
+    const articlesMonth = await prisma.article.findMany({
+      where: {
+        published: false,
+        likes: {
+          some: {
+            createdAt: {
+              gte: startOfMonth(new Date()),
+              lte: endOfMonth(new Date()),
+            }
+          }
+        }
+      },
+      include: {
+        _count: {
+          select: { likes: true },
+        },
+      },
+      orderBy: {
+        likes: {
+          _count: 'desc',
+        },
+      },
+      take: 5
+    });
+
+    const resultDay = articlesDay.map((article) => ({
       id: article.id,
       slug: article.slug,
       createdAt: article.createdAt,
@@ -36,7 +97,33 @@ export async function GET(req: NextRequest) {
       likeCount: article._count.likes,
     }));
 
-    return NextResponse.json(result, { status: 200 });
+    const resultWeek = articlesDay.map((article) => ({
+      id: article.id,
+      slug: article.slug,
+      createdAt: article.createdAt,
+      published: article.published,
+      authorId: article.authorId,
+      thumbnailURL: article.thumbnailURL,
+      content: article.content,
+      title: article.title,
+      likeCount: article._count.likes,
+    }));
+
+    const resultMonth = articlesDay.map((article) => ({
+      id: article.id,
+      slug: article.slug,
+      createdAt: article.createdAt,
+      published: article.published,
+      authorId: article.authorId,
+      thumbnailURL: article.thumbnailURL,
+      content: article.content,
+      title: article.title,
+      likeCount: article._count.likes,
+    }));
+
+    const resultData = { "day": resultDay, "week": resultWeek, "month": resultMonth }
+
+    return NextResponse.json(resultData, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Unable to retrieve articles' }, { status: 500 });
   }

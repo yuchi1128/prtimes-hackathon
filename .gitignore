@@ -36,3 +36,5 @@ pr-times-hackathon-b4a103cf8470.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+dummy_data
